@@ -1,28 +1,46 @@
-import { component$ } from "@builder.io/qwik";
-import type { DocumentHead } from "@builder.io/qwik-city";
+import { component$, useSignal, useTask$ } from "@builder.io/qwik";
+import { type DocumentHead } from "@builder.io/qwik-city";
 import { BlogIndex } from "~/components/BlogIndex";
 import { RefreshButton } from "~/components/RefreshButton";
 import { Toggle } from "~/components/Toggle";
 import { ArticlePreview } from "~/components/ArticlePreview";
 
+import type { File } from "~/@db";
+import { getFiles } from "~/@db";
+import { For, Show } from "~/@app/flow-control";
 export default component$(() => {
+  const files = useSignal<File[]>();
+
+  useTask$(async () => {
+    // get latest values
+    files.value = await getFiles();
+  });
+
   return (
     <>
       <div>
         <BlogIndex>
-          <RefreshButton />
-          <hr />
-          <Toggle>
-            <ArticlePreview filename="something.mdx">Loading...</ArticlePreview>
-          </Toggle>
+          <div q:slot="refresh">
+            <RefreshButton
+              onClick$={async () => {
+                // get latest values from client on click
+                files.value = await getFiles();
+              }}
+            />
+          </div>
 
-          <Toggle>
-            <ArticlePreview filename="something.mdx">Loading...</ArticlePreview>
-          </Toggle>
-
-          <Toggle>
-            <ArticlePreview filename="something.mdx">Loading...</ArticlePreview>
-          </Toggle>
+          {/* thanks jsx */}
+          <Show when={Boolean(files.value)}>
+            <For each={files.value!}>
+              {(file, i) => (
+                <Toggle key={file.name} filename={file.name} hidden={i !== 0}>
+                  <ArticlePreview filename={file.name} value={file.preview}>
+                    Loading...
+                  </ArticlePreview>
+                </Toggle>
+              )}
+            </For>
+          </Show>
         </BlogIndex>
       </div>
     </>

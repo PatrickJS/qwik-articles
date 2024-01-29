@@ -1,13 +1,18 @@
-import { component$ } from "@builder.io/qwik";
+import { component$, useSignal, useTask$ } from "@builder.io/qwik";
+import { getFile, File } from "~/@db";
 
 export default component$(() => {
+  const file = useSignal<File>();
+
+  useTask$(async () => {
+    // get latest values
+    file.value = await getFile();
+  });
+
   return (
     <article>
       <h1>Something</h1>
-      <p>
-        {/* cSpell ignore */}
-        {"content"}
-      </p>
+      <p>{file.value?.contents}</p>
     </article>
   );
 });

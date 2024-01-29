@@ -8,7 +8,20 @@ export default defineConfig(() => {
   return {
     clearScreen: false,
     debug: isDev,
-    plugins: [qwikCity(), qwikVite(), tsconfigPaths()],
+    plugins: [
+      qwikCity({
+
+      }),
+      qwikVite({
+        // entryStrategy: {
+        //   type: 'inline',
+        // },
+
+      }),
+      tsconfigPaths({
+
+      })
+    ],
     preview: {
       headers: {
         "Cache-Control": "public, max-age=600",

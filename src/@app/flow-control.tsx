@@ -9,10 +9,10 @@ export function Show(props: {
 }
 
 export function For(props: {
-  each: any[];
+  each?: any[];
   children: (item: any, index: number, collection: any[]) => any;
 }) {
-  return props.each.map(props.children);
+  return props.each?.map(props.children);
 }
 
 export const Repeat = component$(() => {

@@ -2,7 +2,10 @@ import { component$, useSignal, useTask$ } from "@builder.io/qwik";
 import { type DocumentHead } from "@builder.io/qwik-city";
 import { BlogIndex } from "~/components/BlogIndex";
 import { RefreshButton } from "~/components/RefreshButton";
-import { Toggle } from "~/components/Toggle";
+import {
+  Toggle,
+  // ToggleSignal as Toggle,
+} from "~/components/Toggle";
 import { ArticlePreview } from "~/components/ArticlePreview";
 
 import type { File } from "~/@db";
@@ -33,7 +36,7 @@ export default component$(() => {
           <Show when={Boolean(files.value)}>
             <For each={files.value!}>
               {(file, i) => (
-                <Toggle key={file.name} filename={file.name} hidden={i !== 0}>
+                <Toggle key={file.name} filename={file.name}>
                   <ArticlePreview filename={file.name} value={file.preview}>
                     Loading...
                   </ArticlePreview>

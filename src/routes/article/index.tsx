@@ -1,5 +1,5 @@
 import { component$, useSignal, useTask$ } from "@builder.io/qwik";
-import { getFile, File } from "~/@db";
+import { getFile, type File } from "~/@db";
 
 export default component$(() => {
   const file = useSignal<File>();

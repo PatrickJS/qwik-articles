@@ -1,5 +1,6 @@
 import { server$ } from "@builder.io/qwik-city";
 import { generateRandomObjects } from "./utils";
+import { isServer } from "@builder.io/qwik/build";
 
 export interface File {
   name: string;
@@ -7,9 +8,13 @@ export interface File {
   contents?: string;
 }
 let count = 0;
-setInterval(() => {
-  count++;
-}, 5000);
+
+// fake random data
+if (isServer) {
+  setInterval(() => {
+    count++;
+  }, 5000);
+}
 
 export const getFiles = server$(async () => {
   const FILES: File[] = generateRandomObjects(3, 10);

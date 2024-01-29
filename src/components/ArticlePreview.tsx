@@ -1,6 +1,6 @@
 interface Props {
   filename: string;
-  value: string;
+  value?: string;
 }
 
 export const ArticlePreview = (props: Props) => {

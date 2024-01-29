@@ -7,7 +7,6 @@ import { ArticlePreview } from "~/components/ArticlePreview";
 
 import type { File } from "~/@db";
 import { getFiles } from "~/@db";
-import { For, Show } from "~/@app/flow-control";
 export default component$(() => {
   const files = useSignal<File[]>();
 
@@ -30,17 +29,13 @@ export default component$(() => {
           </div>
 
           {/* thanks jsx */}
-          <Show when={Boolean(files.value)}>
-            <For each={files.value!}>
-              {(file, i) => (
-                <Toggle key={file.name} filename={file.name} hidden={i !== 0}>
-                  <ArticlePreview filename={file.name} value={file.preview}>
-                    Loading...
-                  </ArticlePreview>
-                </Toggle>
-              )}
-            </For>
-          </Show>
+          {files.value?.map((file, i) => (
+            <Toggle key={file.name} filename={file.name} hidden={i !== 0}>
+              <ArticlePreview filename={file.name} value={file.preview}>
+                Loading...
+              </ArticlePreview>
+            </Toggle>
+          ))}
         </BlogIndex>
       </div>
     </>

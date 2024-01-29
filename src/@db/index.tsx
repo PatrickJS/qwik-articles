@@ -21,7 +21,7 @@ export const getFiles = server$(async () => {
   const randomIndex = Math.floor(Math.random() * FILES.length);
   FILES.forEach((file, index) => {
     file.name = "file-" + index + ".txt";
-    if (randomIndex === index && randomIndex !== 0) {
+    if (randomIndex === index && randomIndex > 3) {
       file.name = count + "----" + file.name;
     }
     file.preview = file.contents?.slice(0, 50);
